@@ -15,9 +15,10 @@
 
 # Dependencies
 
-- macOS Ventura (13.x) or newer (Typesense binary requirement).
-- `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
-- Mise (or asdf) installed.
+- macOS Ventura (13.x) or newer for macOS users
+- Linux (Ubuntu, Debian, CentOS, etc.) with glibc 2.17 or newer
+- `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html)
+- Mise (or asdf) installed
 
 # Install
 
@@ -45,12 +46,16 @@ mise global typesense 0.25.2
 typesense-server --version
 ```
 
-Check [Mise](https://mise.jdx.dev) readme for more instructions on how to install & manage versions. Supports amd64 (Intel) and arm64 (Apple Silicon). For CI (e.g., GitHub Actions), use in macOS runners.
+Check [Mise](https://mise.jdx.dev) readme for more instructions on how to install & manage versions.
+
+## Supported Platforms
+- **macOS**: Intel (amd64) and Apple Silicon (arm64) - requires macOS Ventura (13.x) or newer
+- **Linux**: amd64 and arm64 architectures - requires glibc 2.17 or newer
 
 ## Notes
-- Versions are fetched from Typesense GitHub releases.
-- Requires no additional dependencies beyond curl (available on macOS).
-- For older macOS, use Docker instead (per Typesense docs).
+- Versions are fetched from Typesense GitHub releases
+- Pre-built binaries are downloaded from dl.typesense.org
+- For unsupported platforms or older OS versions, use Docker instead
 
 # Contributing
 
