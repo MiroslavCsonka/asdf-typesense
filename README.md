@@ -2,7 +2,7 @@
 
 # asdf-typesense [![Build](https://github.com/MiroslavCsonka/asdf-typesense/actions/workflows/build.yml/badge.svg)](https://github.com/MiroslavCsonka/asdf-typesense/actions/workflows/build.yml) [![Lint](https://github.com/MiroslavCsonka/asdf-typesense/actions/workflows/lint.yml/badge.svg)](https://github.com/MiroslavCsonka/asdf-typesense/actions/workflows/lint.yml)
 
-[typesense](https://typesense.org) plugin for the [asdf version manager](https://asdf-vm.com).
+[Typesense](https://typesense.org) plugin for the [Mise version manager](https://mise.jdx.dev) (compatible with asdf).
 
 </div>
 
@@ -15,39 +15,42 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
+- macOS Ventura (13.x) or newer (Typesense binary requirement).
 - `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+- Mise (or asdf) installed.
 
 # Install
 
 Plugin:
 
 ```shell
-asdf plugin add typesense
+mise plugins install typesense
 # or
-asdf plugin add typesense https://github.com/MiroslavCsonka/asdf-typesense.git
+mise plugins install typesense https://github.com/MiroslavCsonka/asdf-typesense.git
 ```
 
-typesense:
+Typesense:
 
 ```shell
 # Show all installable versions
-asdf list-all typesense
+mise ls-remote typesense
 
 # Install specific version
-asdf install typesense latest
+mise install typesense 0.25.2
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global typesense latest
+mise global typesense 0.25.2
 
-# Now typesense commands are available
+# Now typesense-server commands are available
 typesense-server --version
 ```
 
-Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
-install & manage versions.
+Check [Mise](https://mise.jdx.dev) readme for more instructions on how to install & manage versions. Supports amd64 (Intel) and arm64 (Apple Silicon). For CI (e.g., GitHub Actions), use in macOS runners.
+
+## Notes
+- Versions are fetched from Typesense GitHub releases.
+- Requires no additional dependencies beyond curl (available on macOS).
+- For older macOS, use Docker instead (per Typesense docs).
 
 # Contributing
 
