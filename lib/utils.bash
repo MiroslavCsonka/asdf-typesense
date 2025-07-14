@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for typesense.
 GH_REPO="https://github.com/typesense/typesense"
 TOOL_NAME="typesense"
 TOOL_TEST="typesense-server --version"
@@ -27,12 +26,10 @@ sort_versions() {
 list_github_tags() {
 	git ls-remote --tags --refs "$GH_REPO" |
 		grep -o 'refs/tags/.*' | cut -d/ -f3- |
-		sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+		sed 's/^v//'
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if typesense has other means of determining installable versions.
 	list_github_tags
 }
 
@@ -41,7 +38,8 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	# TODO: Adapt the release URL convention for typesense
+	# This function is not used since we have a custom bin/download script
+	# that downloads the pre-built binaries directly from dl.typesense.org
 	url="$GH_REPO/archive/v${version}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
@@ -59,9 +57,15 @@ install_version() {
 
 	(
 		mkdir -p "$install_path"
-		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		# TODO: Assert typesense executable exists.
+		# Move the typesense-server binary to the install path
+		if [ -f "$ASDF_DOWNLOAD_PATH/typesense-server" ]; then
+			mv "$ASDF_DOWNLOAD_PATH/typesense-server" "$install_path/"
+			chmod +x "$install_path/typesense-server"
+		else
+			fail "typesense-server binary not found in download directory"
+		fi
+
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
