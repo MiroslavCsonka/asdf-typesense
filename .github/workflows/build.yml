@@ -41,4 +41,5 @@ jobs:
       - name: Test typesense
         run: |
           export PATH="$HOME/.asdf/shims:$PATH"
-          typesense-server --version
+          # typesense-server --version exits with 1 but shows version
+          typesense-server --version 2>&1 | grep -q "Typesense 27.1" && echo "✓ Typesense 27.1 installed successfully"
