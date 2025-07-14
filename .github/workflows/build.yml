@@ -16,7 +16,30 @@ jobs:
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - name: asdf_plugin_test
-        uses: asdf-vm/actions/plugin-test@v4
-        with:
-          command: typesense-server --version
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Install asdf
+        uses: asdf-vm/actions/setup@v3
+        
+      - name: Add plugin locally
+        run: |
+          asdf plugin add typesense .
+          
+      - name: List all versions
+        run: |
+          asdf list all typesense
+          
+      - name: Install typesense
+        run: |
+          asdf install typesense 27.1
+          
+      - name: Set typesense version
+        run: |
+          asdf global typesense 27.1
+          
+      - name: Test typesense
+        run: |
+          export PATH="$HOME/.asdf/shims:$PATH"
+          # typesense-server --version exits with 1 but shows version
+          typesense-server --version 2>&1 | grep -q "Typesense 27.1" && echo "✓ Typesense 27.1 installed successfully"

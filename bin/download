@@ -14,16 +14,24 @@ mkdir -p "$ASDF_DOWNLOAD_PATH"
 VERSION="${ASDF_INSTALL_VERSION}"
 DOWNLOAD_DIR="${ASDF_DOWNLOAD_PATH}"
 
-# Detect architecture (Darwin/macOS only)
+# Detect OS
+OS="$(uname -s)"
+case "${OS}" in
+Darwin) OS="darwin" ;;
+Linux) OS="linux" ;;
+*) fail "Unsupported OS: ${OS}. Only macOS and Linux are supported." ;;
+esac
+
+# Detect architecture
 ARCH="$(uname -m)"
 case "${ARCH}" in
-arm64) ARCH="arm64" ;;
+arm64 | aarch64) ARCH="arm64" ;;
 x86_64) ARCH="amd64" ;;
 *) fail "Unsupported architecture: ${ARCH}" ;;
 esac
 
 # Construct download URL
-URL="https://dl.typesense.org/releases/${VERSION}/typesense-server-${VERSION}-darwin-${ARCH}.tar.gz"
+URL="https://dl.typesense.org/releases/${VERSION}/typesense-server-${VERSION}-${OS}-${ARCH}.tar.gz"
 
 # Download the tar.gz
 echo "* Downloading $TOOL_NAME release $VERSION..."
